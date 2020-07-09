@@ -144,6 +144,8 @@ public class DecompressionManager
 		int nextChar = 0xFEE;
 		final int windowSize = 4096;
 		byte[] slidingWindow = new byte[windowSize];
+		Arrays.fill(slidingWindow, (byte)0x20);
+
 		while (src < data.length) 
 		{
 			marker = data[src++] & 0xFF;
