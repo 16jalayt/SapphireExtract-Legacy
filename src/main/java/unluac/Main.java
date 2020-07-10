@@ -69,6 +69,8 @@ public class Main {
     while(len > 0) len -= in.read(buffer);
     buffer.rewind();
     BHeader header = new BHeader(buffer, config);
+    /////////Author didn't close the file! Added by 16jalayt
+    file.close();
     return header.main;
   }
   

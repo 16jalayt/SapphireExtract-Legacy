@@ -4,13 +4,10 @@ import org.sapphireforge.program.Helpers;
 import org.sapphireforge.program.Main;
 import org.sapphireforge.program.Output;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.RandomAccessFile;
-import java.nio.charset.StandardCharsets;
-import unluac.decompile.Decompiler;
-import unluac.parse.LFunction;
+
+import static unluac.Main.decompile;
 
 //using the unluac program
 /*Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -106,11 +103,15 @@ public class CIF3
 			{
 				long begining = inStream.getFilePointer();
 				inStream.skipBytes(16);
-				
+
+				//decomp of venice exe says at least for autotext and convo the extension is .hif
 				if(inStream.readInt() == 1145132097 &&  nameLength == 0x21)
 				{
 					venice=true;
-					fileExt = ".data";
+					//file called hiff with extension hif
+					//her interactive file format?
+					//seems to be simple chunks...
+					fileExt = ".hif";
 				}
 				//maloy
 				else
@@ -127,7 +128,7 @@ public class CIF3
 			//venice
 			else if (fileType == 3 && venice)
 			{
-				fileExt = ".data";
+				fileExt = ".hif";
 			}
 			
 			//xsheet
@@ -164,47 +165,12 @@ public class CIF3
 			{
 				if(Main.arg.raw)
 					return;
+				decompile(Main.outfile.getPath(),Main.outfile.getPath().replace("luac", "lua"));
 
-				/*String arguments = "cmd /C java -jar unluac_2015_06_13.jar \"" + Main.outfile.getPath() + "\"" + " > \"" + Main.outfile.getPath().replace("luac", "lua") + "\"";
-				Process ps=Runtime.getRuntime().exec(arguments);
-		        try 
-		        {
-					ps.waitFor();
-				} 
-		        catch (InterruptedException e) 
-		        {
-					e.printStackTrace();
-				}
-		        InputStream in = ps.getInputStream();
-		        InputStream err = ps.getErrorStream();
-		        
-		        ByteArrayOutputStream result = new ByteArrayOutputStream();
-		        byte[] buffer = new byte[1024];
-		        int length;
-		        while ((length = err.read(buffer)) != -1) {
-		            result.write(buffer, 0, length);
-		        }
-		        //check if empty for error
-		        if(!result.toString().equals(""))
-		        	System.out.println(result.toString(StandardCharsets.UTF_8.name()));
-		        
-		        
-		        ByteArrayOutputStream result2 = new ByteArrayOutputStream();
-		        byte[] buffer2 = new byte[1024];
-		        int length2;
-		        while ((length2 = in.read(buffer2)) != -1) {
-		            result2.write(buffer2, 0, length2);
-		        }
-		        //succesful should be blank
-		        if(!result2.toString().equals(""))
-		        	System.out.println(result2.toString(StandardCharsets.UTF_8.name()));
-		        
-		        
-		        
-		        if(!Main.outfile.delete()) 
+		        if(!Main.outfile.delete())
 		        { 
 		            System.out.println("Error deleteing temp lauq file"); 
-		        } */
+		        }
 			}
 			
 			return;
