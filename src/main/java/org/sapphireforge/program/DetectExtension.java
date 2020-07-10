@@ -44,14 +44,14 @@ import java.util.Arrays;
 public class DetectExtension 
 {
 	public static void DetectExt(RandomAccessFile inStream) throws IOException
-	{//System.out.println(Main.inputExtension);
+	{
 		//extension blacklist for mass checking
 		if (Arrays.asList(".mp3",".wav",".bmp",".png",".tga",".dds",".avi",".exe",".dll",".so",".dylib",".app",".wri",".ico",".hlp",".txt").contains(Main.inputExtension.toLowerCase()))
 		{
 			System.exit(0);
 		}
 		//tgq sort of works, but too slow
-		else if (Arrays.asList(".mpg", ".mp2", ".mp4",".tgq", ".flv", ".ogv").contains(Main.inputExtension.toLowerCase()))
+		else if (Arrays.asList(".mpg", ".mp2", ".mp4",".tgq", ".flv", ".ogv", ".bik").contains(Main.inputExtension.toLowerCase()))
 		{
 			FFmpegConv.convert();
 		}

@@ -13,6 +13,7 @@ import net.bramp.ffmpeg.progress.Progress;
 import net.bramp.ffmpeg.progress.ProgressListener;
 import org.sapphireforge.program.Main;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -22,6 +23,8 @@ public class FFmpegConv
 	{
 		//Config
 		//TODO if input same as output make converted directory
+		File dir = new File(Main.inputPath + "output");
+		dir.mkdirs();
 		String outputName = Main.inputPath + "output" + Main.separator + Main.inputWithoutExtension + ".mp4";
 		String inputName = Main.inputFull;
 		
