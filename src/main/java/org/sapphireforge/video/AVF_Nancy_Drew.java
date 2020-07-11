@@ -48,6 +48,8 @@ public class AVF_Nancy_Drew
         short width = Helpers.readShortLittleEndian("width of frames: ", inStream);
         short height = Helpers.readShortLittleEndian("height of frames: ", inStream);
 
+        System.out.println("Extracting " + numFrames + " frames...");
+
         //seems to be constant 10 42 00 00 00 02
         inStream.skipBytes(6);
 
@@ -123,7 +125,8 @@ public class AVF_Nancy_Drew
 
             inStream.seek(tableOffset);
         }
-        makeVid();
+        if(numFrames>1)
+            makeVid();
     }
 
     //copy pasted from ffmpegconv file and striped down

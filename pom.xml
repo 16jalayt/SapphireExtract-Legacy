@@ -76,6 +76,11 @@
       <artifactId>imageio-tga</artifactId>
       <version>3.5</version>
     </dependency>
+    <dependency>
+      <groupId>com.twelvemonkeys.imageio</groupId>
+      <artifactId>imageio-core</artifactId>
+      <version>3.5</version>
+    </dependency>
   </dependencies>
 
   <build>

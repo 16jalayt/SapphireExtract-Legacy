@@ -93,7 +93,7 @@ public class FFmpegConv
 
 		  //nvenc makes huge files, but gpu accelerated. h265 smallest file. "gpu only good for on the fly"
 		  .setVideoCodec(outputCodec)     //default: libx264 or libx265 or nvenc_hevc, rec: libx265 
-		  .addExtraArgs("-preset", "fast", "-map", "0:v", "-map", "0:a?", "-c:s", "copy")
+		  .addExtraArgs("-preset", "fast", "-map", "0:v", "-map", "0:a?", "-c:s", "copy", "-vf",  "pad=ceil(iw/2)*2:ceil(ih/2)*2")
 
 		  .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
 		  

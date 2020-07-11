@@ -5,15 +5,19 @@ import org.sapphireforge.program.Helpers;
 import org.sapphireforge.program.Main;
 import org.sapphireforge.program.Output;
 
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Iterator;
 
 public class CIF2_1_1 
 {
 //algorithm developled on ghost dogs
-	public static void cif2_1_1(RandomAccessFile inStream)throws IOException
+	public static void cif2_1_1(RandomAccessFile inStream,boolean is23)throws IOException
 	{
 		//This value is actually a short not an int
 		//games seem to have 0000 after but external seems to have a value
@@ -93,10 +97,10 @@ public class CIF2_1_1
 				short unknownTwo = Helpers.readShortLittleEndian(inStream);
 				fileHeight = Helpers.readShortLittleEndian("File height: ", inStream);
 				
-				//seems to be constant
+				//seems to be constant. diff in 2.3
 				short UnknownShort = Helpers.readShortLittleEndian(inStream);
-				if(UnknownShort !=528)
-					System.out.println("UnknownShort should always be 528?: "+UnknownShort);
+				//if(UnknownShort !=528)
+					//System.out.println("UnknownShort should always be 528?: "+UnknownShort);
 				
 				
 				fileLengthDecompressed = Helpers.readIntLittleEndian("Final file length: ", inStream);
@@ -110,7 +114,7 @@ public class CIF2_1_1
 				//same file type we read before
 				byte fileTypeAgain = inStream.readByte();			
 			}
-			
+			///////////////////////compression
 			else if(fileType==3)
 			{
 				if(Main.arg.verbose) System.out.println("Data file");
@@ -126,8 +130,6 @@ public class CIF2_1_1
 				//same file type we read before
 				byte fileTypeAgain = inStream.readByte();
 			}
-			/////////////////////////////////////////////////
-			//temp ignore broken
 			else
 			{
 				System.out.println("File of type "+fileType+ " detected: " +name);
@@ -135,7 +137,6 @@ public class CIF2_1_1
 				inStream.skipBytes(59);
 				continue;
 			}
-			//////////////////////////////////////////////
 			
 			tableOffset = inStream.getFilePointer();
 			inStream.seek(fileOffset);
@@ -150,24 +151,65 @@ public class CIF2_1_1
 				fileraw[j]=(byte) (fileraw[j]-j);
 			
 			fileraw=DecompressionManager.decompressLZSS(fileraw);
-				
+
 			//plain
 			if(fileType==2)
-			{///////////////TODO: convert to png
-				//need to append tga header
-				ByteBuffer buffer = ByteBuffer.allocate(fileraw.length + 18);
-				buffer.order(ByteOrder.LITTLE_ENDIAN);
-				buffer.put(new byte[] {0x00, 0x00, 0x02,
-		                   0x00, 0x00, 0x00, 0x00, 0x00});
-				buffer.putShort(xOrigin);
-				buffer.putShort(yOrigin);
-				buffer.putShort(fileWidth);
-				buffer.putShort(fileHeight);
-				buffer.put(new byte[] {0x0F, 0x20});
-				buffer.put(fileraw);
-				
-				Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".tga");
-				Main.outStream.write(buffer.array());
+			{
+				//if not version 2.3 we need to create the tga header ourselves
+				if(!is23)
+				{
+					//need to append tga header
+					ByteBuffer buffer = ByteBuffer.allocate(fileraw.length + 18);
+					buffer.order(ByteOrder.LITTLE_ENDIAN);
+					buffer.put(new byte[] {0x00, 0x00, 0x02,
+							0x00, 0x00, 0x00, 0x00, 0x00});
+					buffer.putShort(xOrigin);
+					buffer.putShort(yOrigin);
+					buffer.putShort(fileWidth);
+					buffer.putShort(fileHeight);
+					buffer.put(new byte[] {0x0F, 0x20});
+					//for 2.3
+					//buffer.put(new byte[] {24, 0x20});
+					buffer.put(fileraw);
+
+					Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".tga");
+					Main.outStream.write(buffer.array());
+					Main.outStream.flush();
+					Main.outStream.close();
+
+					BufferedImage img = ImageIO.read(new File(Main.inputWithoutExtension + Main.separator + name+".tga"));
+					if(img==null)
+					{
+						System.out.println("Failed to convert "+name+" to png. Skipping...");
+						inStream.seek(tableOffset);
+						continue;
+					}
+
+					File outputfile = new File(Main.inputWithoutExtension + Main.separator + name+".png");
+					ImageIO.write(img, "png", outputfile);
+
+					Main.outfile.delete();
+				}
+				//ver 2.3 just output
+				else
+				{
+					Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".tga");
+					Main.outStream.write(fileraw);
+					Main.outStream.flush();
+					Main.outStream.close();
+
+					BufferedImage img = ImageIO.read(new File(Main.inputWithoutExtension + Main.separator + name+".tga"));
+					if(img==null)
+					{
+						System.out.println("Failed to convert "+name+" to png. Skipping...");
+						inStream.seek(tableOffset);
+						continue;
+					}
+					File outputfile = new File(Main.inputWithoutExtension + Main.separator + name+".png");
+					ImageIO.write(img, "png", outputfile);
+
+					Main.outfile.delete();
+				}
 			}
 			//data
 			if(fileType==3)
@@ -185,7 +227,7 @@ public class CIF2_1_1
 						Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".xs1");
 					//dat script file
 					else if(fileraw[0]==68)
-						Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".dat");
+						Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".hif");
 					else
 					{
 						Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".unk");

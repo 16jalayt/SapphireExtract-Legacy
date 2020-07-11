@@ -5,6 +5,9 @@ import org.sapphireforge.program.Helpers;
 import org.sapphireforge.program.Main;
 import org.sapphireforge.program.Output;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -13,7 +16,7 @@ import java.nio.ByteOrder;
 public class CIF2_1_0 
 {
 
-	public static void cif2_1_0(RandomAccessFile inStream)throws IOException
+	public static void cif2_1_0(RandomAccessFile inStream,boolean is2)throws IOException
 	{
 		//This value is actually a short not an int
 		short numFiles = Helpers.readShortLittleEndian("Number of files: ", inStream);
@@ -36,8 +39,12 @@ public class CIF2_1_0
 				
 				//spacing for print
 				if(Main.arg.verbose) System.out.println();
-				
-				byte[] currFileName = new byte[33];
+
+				byte[] currFileName;
+				if(is2)
+					currFileName = new byte[9];
+				else
+					currFileName = new byte[33];
 				inStream.read(currFileName);
 				//turn name to string cutting off trailing whitespace
 				String name = new String(currFileName).trim();
@@ -168,6 +175,20 @@ public class CIF2_1_0
 					
 					Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".tga");
 					Main.outStream.write(buffer.array());
+					Main.outStream.flush();
+					Main.outStream.close();
+
+					BufferedImage img = ImageIO.read(new File(Main.inputWithoutExtension + Main.separator + name+".tga"));
+					if(img==null)
+					{
+						System.out.println("Failed to convert "+name+" to png. Skipping...");
+						inStream.seek(tableOffset);
+						continue;
+					}
+					File outputfile = new File(Main.inputWithoutExtension + Main.separator + name+".png");
+					ImageIO.write(img, "png", outputfile);
+
+					Main.outfile.delete();
 				}
 				//data
 				if(fileType==3)

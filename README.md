@@ -10,7 +10,7 @@ List of supported extensions:
 Pack Files:
 | Format  | Status |
 | ------------- | ------------- |
-| CIF Nancy Drew  | In-Progress  |
+| CIF Nancy Drew  | Complete  |
 | TBV 3D Ultra  |  Complete |
 | PCK Godot Engine  | Complete  |
 | MHK Riven  | Complete  |
@@ -36,5 +36,5 @@ Sound Files:
 Video Files:
 | Format  | Status |
 | ------------- | ------------- |
-| AVF Nancy Drew  | Partial  |
+| AVF Nancy Drew  | Complete  |
 | BIK Many games  | Complete  |
