@@ -24,6 +24,14 @@ public class CIF2_1_1
 //algorithm developled on ghost dogs
 	public static void cif2_1_1(RandomAccessFile inStream,boolean is23)throws IOException
 	{
+		// create command for png conversion
+		GraphicsMagickCmd cmd = new GraphicsMagickCmd("convert");
+		String path = CIF2_1_1.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		String decodedPath = URLDecoder.decode(path, "UTF-8");
+		decodedPath = decodedPath.substring(0, decodedPath.lastIndexOf(Main.separator)+1);
+		cmd.setSearchPath(decodedPath+"GraphicsMagick-1.3.35-Q8"+Main.separator);
+
+
 		//This value is actually a short not an int
 		//games seem to have 0000 after but external seems to have a value
 		short numFiles = Helpers.readShortLittleEndian("Number of files: ", inStream);
@@ -52,7 +60,7 @@ public class CIF2_1_1
 			inStream.read(currFileName);
 			//turn name to string cutting off trailing whitespace
 			String name = new String(currFileName).trim();
-			if(Main.arg.verbose) System.out.println(name);
+			System.out.println(name);
 			
 			short fileIndex = Helpers.readShortLittleEndian("File index: ", inStream);
 			
@@ -63,8 +71,6 @@ public class CIF2_1_1
 			
 			///////NOTE check next byte for offset to tell versions apart
 			//NOTe chunk type identifier moved too. now 5e offset. now need to seek 60
-			
-			if(fileType != 2 && fileType != 3)System.out.println("Unknown type: "+fileType);
 			
 			//seek back
 			inStream.seek(tableOffset);
@@ -83,16 +89,11 @@ public class CIF2_1_1
 				//for tga header
 				xOrigin = Helpers.readShortLittleEndian("x-origin: ", inStream);
 				short UnknownZero1 = Helpers.readShortLittleEndian(inStream);
-				if(UnknownZero1 !=0)
-					System.out.println("UnknownInt should always be 0?: "+UnknownZero1);
-				
 				
 				//probably need to make int if UnknownZero2 never trips, inconsistant in file though
 				//for tga header
 				yOrigin = Helpers.readShortLittleEndian("y-origin: ", inStream);
 				short UnknownZero2 = Helpers.readShortLittleEndian(inStream);
-				if(UnknownZero2 !=0)
-					System.out.println("UnknownInt should always be 0?: "+UnknownZero2);
 				
 				//all zeros
 				inStream.skipBytes(16);
@@ -111,8 +112,6 @@ public class CIF2_1_1
 				fileLengthDecompressed = Helpers.readIntLittleEndian("Final file length: ", inStream);
 				
 				int UnknownInt = Helpers.readIntLittleEndian(inStream);
-				if(UnknownInt !=0)
-					System.out.println("UnknownInt should always be 0?: "+UnknownInt);
 				
 				fileLength = Helpers.readIntLittleEndian("File length in ciff: ", inStream);
 				
@@ -137,8 +136,8 @@ public class CIF2_1_1
 			}
 			else
 			{
-				System.out.println("File of type "+fileType+ " detected: " +name);
-				System.out.println("This type of file is either a dummy file or points to an external file.");
+				if(Main.arg.verbose) System.out.println("File of type "+fileType+ " detected: " +name);
+				if(Main.arg.verbose) System.out.println("This type of file is either a dummy file or points to an external file.");
 				inStream.skipBytes(59);
 				continue;
 			}
@@ -173,7 +172,7 @@ public class CIF2_1_1
 					buffer.putShort(fileWidth);
 					buffer.putShort(fileHeight);
 					buffer.put(new byte[] {0x0F, 0x20});
-					//for 2.3
+					//for 2.3 and atleast kapu on 2.2
 					//buffer.put(new byte[] {24, 0x20});
 					buffer.put(fileraw);
 
@@ -181,13 +180,6 @@ public class CIF2_1_1
 					Main.outStream.write(buffer.array());
 					Main.outStream.flush();
 					Main.outStream.close();
-
-					// create command
-					GraphicsMagickCmd cmd = new GraphicsMagickCmd("convert");
-					String path = CIF2_1_1.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-					String decodedPath = URLDecoder.decode(path, "UTF-8");
-					decodedPath = decodedPath.substring(0, decodedPath.lastIndexOf(Main.separator)+1);
-					cmd.setSearchPath(decodedPath+"GraphicsMagick-1.3.35-Q8"+Main.separator);
 
 					// create the operation, add images and operators/options
 					GMOperation op = new GMOperation();
@@ -216,12 +208,7 @@ public class CIF2_1_1
 					Main.outStream.flush();
 					Main.outStream.close();
 
-					// create command
-					GraphicsMagickCmd cmd = new GraphicsMagickCmd("convert");
-					String path = CIF2_1_1.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-					String decodedPath = URLDecoder.decode(path, "UTF-8");
-					decodedPath = decodedPath.substring(0, decodedPath.lastIndexOf(Main.separator)+1);
-					cmd.setSearchPath(decodedPath+"GraphicsMagick-1.3.35-Q8"+Main.separator);
+
 
 					// create the operation, add images and operators/options
 					GMOperation op = new GMOperation();

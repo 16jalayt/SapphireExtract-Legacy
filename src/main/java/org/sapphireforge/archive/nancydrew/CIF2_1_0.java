@@ -23,6 +23,14 @@ public class CIF2_1_0
 
 	public static void cif2_1_0(RandomAccessFile inStream,boolean is2)throws IOException
 	{
+		// create command
+		GraphicsMagickCmd cmd = new GraphicsMagickCmd("convert");
+		String path = CIF2_1_1.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		String decodedPath = URLDecoder.decode(path, "UTF-8");
+		decodedPath = decodedPath.substring(0, decodedPath.lastIndexOf(Main.separator)+1);
+		cmd.setSearchPath(decodedPath+"GraphicsMagick-1.3.35-Q8"+Main.separator);
+
+
 		//This value is actually a short not an int
 		short numFiles = Helpers.readShortLittleEndian("Number of files: ", inStream);
 		inStream.skipBytes(2);
@@ -53,7 +61,7 @@ public class CIF2_1_0
 				inStream.read(currFileName);
 				//turn name to string cutting off trailing whitespace
 				String name = new String(currFileName).trim();
-				if(Main.arg.verbose) System.out.println(name);
+				System.out.println(name);
 				
 				short fileIndex = Helpers.readShortLittleEndian("File index: ", inStream);
 				
@@ -83,15 +91,11 @@ public class CIF2_1_0
 					//for tga header
 					xOrigin = Helpers.readShortLittleEndian("x-origin: ", inStream);
 					short UnknownZero1 = Helpers.readShortLittleEndian(inStream);
-					if(UnknownZero1 !=0)
-						System.out.println("UnknownInt should always be 0?: "+UnknownZero1);
 					
 					//probably need to make int if UnknownZero2 never trips, inconsistant in file though
 					//for tga header
 					yOrigin = Helpers.readShortLittleEndian("y-origin: ", inStream);
 					short UnknownZero2 = Helpers.readShortLittleEndian(inStream);
-					if(UnknownZero2 !=0)
-						System.out.println("UnknownInt should always be 0?: "+UnknownZero2);
 					
 					//all zeros
 					inStream.skipBytes(16);
@@ -103,15 +107,11 @@ public class CIF2_1_0
 					
 					//seems to be constant
 					short UnknownShort = Helpers.readShortLittleEndian(inStream);
-					if(UnknownShort !=528)
-						System.out.println("UnknownShort should always be 528?: "+UnknownShort);
 					
 					fileOffset = Helpers.readIntLittleEndian("File offset: ", inStream);
 					fileLengthDecompressed = Helpers.readIntLittleEndian("Final file length: ", inStream);
 					
 					int UnknownInt = Helpers.readIntLittleEndian(inStream);
-					if(UnknownInt !=0)
-						System.out.println("UnknownInt should always be 0?: "+UnknownInt);
 					
 					fileLength = Helpers.readIntLittleEndian("File length in ciff: ", inStream);
 					
@@ -130,15 +130,11 @@ public class CIF2_1_0
 					
 					//always 2? need to confirm
 					byte unknownConstant = inStream.readByte();
-					if(unknownConstant !=2)
-						System.out.println("unknownConstant should always be 2?: "+unknownConstant);
 					
 					fileOffset = Helpers.readIntLittleEndian("File offset: ", inStream);
 					fileLengthDecompressed = Helpers.readIntLittleEndian("Final file length: ", inStream);
 					
 					int UnknownInt = Helpers.readIntLittleEndian(inStream);
-					if(UnknownInt !=0)
-						System.out.println("UnknownInt should always be 0?: "+UnknownInt);
 					
 					fileLength = Helpers.readIntLittleEndian("File length in ciff: ", inStream);
 					
@@ -182,13 +178,6 @@ public class CIF2_1_0
 					Main.outStream.write(buffer.array());
 					Main.outStream.flush();
 					Main.outStream.close();
-
-					// create command
-					GraphicsMagickCmd cmd = new GraphicsMagickCmd("convert");
-					String path = CIF2_1_1.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-					String decodedPath = URLDecoder.decode(path, "UTF-8");
-					decodedPath = decodedPath.substring(0, decodedPath.lastIndexOf(Main.separator)+1);
-					cmd.setSearchPath(decodedPath+"GraphicsMagick-1.3.35-Q8"+Main.separator);
 
 					// create the operation, add images and operators/options
 					GMOperation op = new GMOperation();
