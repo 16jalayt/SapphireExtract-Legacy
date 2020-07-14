@@ -72,14 +72,9 @@
       <version>1.78</version>
     </dependency>
     <dependency>
-      <groupId>com.twelvemonkeys.imageio</groupId>
-      <artifactId>imageio-tga</artifactId>
-      <version>3.5</version>
-    </dependency>
-    <dependency>
-      <groupId>com.twelvemonkeys.imageio</groupId>
-      <artifactId>imageio-core</artifactId>
-      <version>3.5</version>
+      <groupId>org.im4java</groupId>
+      <artifactId>im4java</artifactId>
+      <version>1.4.0</version>
     </dependency>
   </dependencies>
 

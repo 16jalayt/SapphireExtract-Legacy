@@ -1,5 +1,8 @@
 package org.sapphireforge.archive.nancydrew;
 
+import org.im4java.core.ConvertCmd;
+import org.im4java.core.GMOperation;
+import org.im4java.core.GraphicsMagickCmd;
 import org.sapphireforge.program.DecompressionManager;
 import org.sapphireforge.program.Helpers;
 import org.sapphireforge.program.Main;
@@ -10,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -154,15 +158,29 @@ public class CIF2_0
 					Main.outStream.flush();
 					Main.outStream.close();
 
-					BufferedImage img = ImageIO.read(new File(Main.inputWithoutExtension + Main.separator + name+".tga"));
-					if(img==null)
+					// create command
+					GraphicsMagickCmd cmd = new GraphicsMagickCmd("convert");
+					String path = CIF2_1_1.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+					String decodedPath = URLDecoder.decode(path, "UTF-8");
+					decodedPath = decodedPath.substring(0, decodedPath.lastIndexOf(Main.separator)+1);
+					cmd.setSearchPath(decodedPath+"GraphicsMagick-1.3.35-Q8"+Main.separator);
+
+					// create the operation, add images and operators/options
+					GMOperation op = new GMOperation();
+					op.addImage(Main.inputWithoutExtension + Main.separator + name+".tga");
+					op.transparent("green1");
+					op.transparent("red1");
+					op.addImage(Main.inputWithoutExtension + Main.separator + name+".png");
+					//cmd.createScript("out",op);
+					try
 					{
-						System.out.println("Failed to convert "+name+" to png. Skipping...");
-						inStream.seek(tableOffset);
-						continue;
+						// execute the operation
+						cmd.run(op);
 					}
-					File outputfile = new File(Main.inputWithoutExtension + Main.separator + name+".png");
-					ImageIO.write(img, "png", outputfile);
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
 
 					Main.outfile.delete();
 				}
