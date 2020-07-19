@@ -45,10 +45,10 @@ public class DetectExtension
 {
 	public static void DetectExt(RandomAccessFile inStream) throws IOException
 	{
-		//extension blacklist for mass checking
-		if (Arrays.asList(".mp3",".wav",".bmp",".png",".tga",".dds",".avi",".exe",".dll",".so",".dylib",".app",".wri",".ico",".hlp",".txt").contains(Main.inputExtension.toLowerCase()))
+		//extension blacklist for batch looping
+		if (Arrays.asList(".mp3",".wav",".bmp",".png",".tga",".dds",".avi",".exe",".dll",".so",".dylib",".app",".wri",".ico",".hlp",".txt",".bat").contains(Main.inputExtension.toLowerCase()))
 		{
-			System.exit(0);
+			System.exit(2);
 		}
 		//tgq sort of works, but too slow
 		else if (Arrays.asList(".mpg", ".mp2", ".mp4",".tgq", ".flv", ".ogv", ".bik").contains(Main.inputExtension.toLowerCase()))

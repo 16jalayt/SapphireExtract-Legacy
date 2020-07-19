@@ -119,12 +119,23 @@ public class AVF_Nancy_Drew
                 img.setRGB(j / 3 % width, j / 3 / width, col);
             }
 
-            File outfile = new File(Main.inputWithoutExtension + Main.separator + frameNumber + ".png");
-            outfile.getParentFile().mkdirs();
-            ImageIO.write(img, "png", outfile);
+            //if multiple frames create a subfolder
+            if(numFrames>1)
+            {
+                //TODO issue with pwd. should specify path everywhere
+                File outfile = new File(Main.inputWithoutExtension + Main.separator + frameNumber + ".png");
+                outfile.getParentFile().mkdirs();
+                ImageIO.write(img, "png", outfile);
+            }
+            else
+            {
+                File outfile = new File(Main.inputWithoutExtension + ".png");
+                ImageIO.write(img, "png", outfile);
+            }
 
             inStream.seek(tableOffset);
         }
+        //if multiple frames, make a video
         if(numFrames>1)
             makeVid();
     }
@@ -132,7 +143,7 @@ public class AVF_Nancy_Drew
     //copy pasted from ffmpegconv file and striped down
     public static void makeVid() throws IOException
     {
-        String outputName = Main.inputWithoutExtension + Main.separator + Main.inputWithoutExtension + ".mp4";
+        String outputName = Main.inputWithoutExtension + ".mp4";
         String outputCodec = "libx264";
         String path = (System.getProperty("user.dir") + Main.separator + "ffmpeg" + Main.separator);
         FFmpeg ffmpeg = new FFmpeg(path + "ffmpeg");

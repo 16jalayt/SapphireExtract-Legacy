@@ -15,7 +15,7 @@ public class HIS_Nancy_Drew
 	public static void HISextractOGG(RandomAccessFile inStream, boolean newer) throws IOException
 	{
 		inStream.seek(0);
-		Output.OutSetup(".ogg");
+		Output.OutSetup(Main.inputWithoutExtension,".ogg");
 		//32 or 30 byte header.
 		//varient from venice and ? shifted back 2 bytes
 		if(newer)

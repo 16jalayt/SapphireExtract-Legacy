@@ -22,16 +22,23 @@ public class FFmpegConv
 	public static void convert() throws IOException
 	{
 		//Config
-		//TODO if input same as output make converted directory
-		File dir = new File(Main.inputPath + "output");
-		dir.mkdirs();
-		String outputName = Main.inputPath + "output" + Main.separator + Main.inputWithoutExtension + ".mp4";
+		String outputName;
+		if(Main.inputExtension.compareTo(".mp4")==0)
+		{
+			File dir = new File(Main.inputPath + "output");
+			dir.mkdirs();
+			outputName = Main.inputPath + "output" + Main.separator + Main.inputWithoutExtension + ".mp4";
+		}
+		else
+		{
+			outputName = Main.inputPath + Main.inputWithoutExtension + ".mp4";
+		}
 		String inputName = Main.inputFull;
 		
 		String outputCodec = "libx265";
 		
 		//libx265 cant process flv
-		//should repeat to get into x265
+		//just repeat to get into x265
 		if(Main.inputExtension.equals(".flv"))
 			outputCodec = "libx264";
 
@@ -52,18 +59,7 @@ public class FFmpegConv
     		}
 		};
 
-		Runtime.getRuntime().addShutdownHook(closeChildThread); */
-		
-		
-		//check if just doing a transcode
-		/*if (Main.inputFull.equals(Main.inputPath + outputName))
-		{			
-			File directory = new File(Main.inputPath + "output");
-		    if (! directory.exists()){
-		        directory.mkdir();
-		    }
-			outputName = Main.inputPath + "output" + Main.separator + Main.inputWithoutExtension +  Main.inputExtension;
-		}
+		Runtime.getRuntime().addShutdownHook(closeChildThread);
 		*/
 		final FFmpegProbeResult probeResult = ffprobe.probe(inputName);
 
@@ -81,9 +77,6 @@ public class FFmpegConv
 			stream.height
 		);
 
-		
-		
-		//notes. will overwrite output - TODO implement  exist check before
 		FFmpegBuilder builder = new FFmpegBuilder()
 		  .setInput(probeResult)     // Filename, or a FFmpegProbeResult
 		  .overrideOutputFiles(Main.arg.overwriteAll) // Override the output if it exists
@@ -102,8 +95,8 @@ public class FFmpegConv
 		//builder.readAtNativeFrameRate();
 		FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
 		
-		System.out.println(builder.toString());
-		System.out.println("\n\n");
+		//System.out.println(builder.toString());
+		//System.out.println("\n\n");
 		
 		// Run a one-pass encode
 		executor.createJob(builder, new ProgressListener()

@@ -99,35 +99,33 @@ public class Main
 		
 		try 
 		{
+			infile = new File(args[0]);
+			if(!infile.exists())
+			{
+				System.out.println("File doesnt exist");
+				return;
+			}
+
 			inputFull = args[0];
 			separator = System.getProperty("file.separator");
-			inputPath = args[0].substring(0, args[0].lastIndexOf(separator)+1);
+			//inputPath = args[0].substring(0, args[0].lastIndexOf(separator)+1);
+			inputPath = infile.getAbsolutePath().substring(0, infile.getAbsolutePath().lastIndexOf(separator)+1);
 			inputExtension = args[0].substring(args[0].lastIndexOf("."), args[0].length());
 			inputWithExtension = args[0].substring(args[0].lastIndexOf(separator) +1, args[0].length());
 			inputWithoutExtension = inputWithExtension.substring(0, inputWithExtension.lastIndexOf("."));
-			
-			//prints blank
-			//System.out.println("Output Dir: " + inputPath);
-			
-			//infile = new File(new String(System.getProperty("user.dir") + "/bin/" + args[0]));
-			infile = new File(args[0]);
-			if(!infile.exists())
-		    {
-		    	System.out.println("File doesnt exist");
-		    	return;
-		    }
-			
+
 			inStream = new RandomAccessFile(infile, "r"); 	        
 			DetectExtension.DetectExt(inStream);
 	        inStream.close();
 	        if (outStream != null)
 	        	outStream.close();
-	        System.out.println("Done"); 
+	        System.out.println("Done");
+	        System.exit(0);
 	    } 
 		catch (IOException e) 
 		{
 	    	System.out.println("Error: " + e);
-		    return;
+	    	System.exit(-1);
 		}
 	}
 }
