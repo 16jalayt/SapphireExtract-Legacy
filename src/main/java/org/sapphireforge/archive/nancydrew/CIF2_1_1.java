@@ -94,9 +94,14 @@ public class CIF2_1_1
 				//for tga header
 				yOrigin = Helpers.readShortLittleEndian("y-origin: ", inStream);
 				short UnknownZero2 = Helpers.readShortLittleEndian(inStream);
-				
+
+				//unconfirmed. discrepency of 1px between rect and size
+				int xStart = Helpers.readIntLittleEndian("xStart: ", inStream);
+				int yStart = Helpers.readIntLittleEndian("yStart: ", inStream);
+				int xEnd = Helpers.readIntLittleEndian("xEnd: ", inStream);
+				int yEnd = Helpers.readIntLittleEndian("yEnd: ", inStream);
 				//all zeros
-				inStream.skipBytes(16);
+				//inStream.skipBytes(8);
 				
 				//same as above but assuming int
 				fileWidth = Helpers.readShortLittleEndian("File width: ", inStream);
@@ -246,7 +251,7 @@ public class CIF2_1_1
 						Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".xs1");
 					//dat script file
 					else if(fileraw[0]==68)
-						Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".hif");
+						Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".iff");
 					else
 					{
 						Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".unk");

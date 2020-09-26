@@ -81,6 +81,11 @@ public class DetectExtension
 			MPO.MPOextract(inStream);
 			return;
 		}
+		else if(Main.inputExtension.toLowerCase().equals(".ima") || Main.inputExtension.toLowerCase().equals(".img"))
+		{
+			FAT_Windows.FATextract(inStream);
+			return;
+		}
 		
 		else
 		{
@@ -187,16 +192,32 @@ public class DetectExtension
 				NPK_Nvidia.NPKextract(inStream);
 				return;
 			}
-			
 			else
 			{
+				//files with 2 byte id check
+				Main.inStream.seek(0);
+				format = new byte[2];
+				Main.inStream.read(format);
+
+				//AC DC
+				if (Arrays.equals(format, new byte[]{(byte) 0xAC, (byte) 0xDC}))
+				{
+					DATA_Sandlot.DATAextract(inStream);
+					return;
+				}
+				//1f 8b
+				else if (Arrays.equals(format, new byte[]{(byte) 0x1f, (byte) 0x8b}))
+				{
+					DATA_Sandlot.ZDATAextract(inStream);
+					return;
+				}
+
+
 				if (Main.inputWithoutExtension.toLowerCase().contains("css") && Main.inputExtension.toLowerCase().compareTo(".dat") == 0)
 				{
 					CSSDAT_RCT.DATextract(inStream);
 					return;
 				}
-				
-				
 				
 			///////files with no header
 				Main.inStream.seek(0);

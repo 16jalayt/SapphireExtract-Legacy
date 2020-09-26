@@ -221,7 +221,7 @@ public class CIF2_1_0
 							Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".xs1");
 						//dat script file
 						else if(fileraw[0]==68)
-							Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".dat");
+							Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".iff");
 						else
 						{
 							Output.OutSetup(Main.inputWithoutExtension + Main.separator + name,".unk");
