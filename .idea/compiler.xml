@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SapphireExtract" />
+        <module name="Shared" />
+        <module name="CLI" />
+        <module name="GUI" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="SapphireExtract" target="1.15" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="15" />
   </component>
 </project>

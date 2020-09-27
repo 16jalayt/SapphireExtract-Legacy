@@ -1,2 +1,2 @@
 JAVA_VERSION="15"
-MODULES="java.base java.datatransfer java.xml java.prefs java.desktop java.logging java.management java.transaction.xa java.sql jdk.unsupported"
+MODULES="java.base java.datatransfer java.xml java.prefs java.desktop java.logging java.management java.scripting java.transaction.xa java.sql javafx.base jdk.unsupported javafx.graphics javafx.controls javafx.fxml"
