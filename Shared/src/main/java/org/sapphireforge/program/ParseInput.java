@@ -1,5 +1,8 @@
 package org.sapphireforge.program;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,6 +33,8 @@ public class ParseInput
     //TODO: REPLACE WITH LOGGER
     public static boolean verbose = false;
     public static boolean raw = false;
+    public static final Logger logger = LogManager.getLogger(ParseInput.class);
+    //TODO: command line log level
 
     public static void parseFile(File inputFile)
     {

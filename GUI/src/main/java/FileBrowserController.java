@@ -4,6 +4,8 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sapphireforge.program.ParseInput;
 
 import java.io.File;
@@ -13,16 +15,29 @@ import java.util.List;
 
 public class FileBrowserController
 {
+    private static final Logger logger = ParseInput.logger;
+
     @FXML private TreeView treevew;
 
     public FileBrowserController()
     {
+        logger.info("Fatal error!");
+        logger.warn("oops.");
+        logger.fatal("There is no error... my bad.");
+
+        logger.trace("We've just greeted the user!");
+        logger.debug("We've just greeted the user!");
+        logger.info("We've just greeted the user!");
+        logger.warn("We've just greeted the user!");
+        logger.error("We've just greeted the user!");
+        logger.fatal("We've just greeted the user!");
     }
 
     @FXML
     private void initialize()
     {
         System.out.println("initializing");
+
         /*TreeItem<String> rootItem = new TreeItem<String> ("Inbox");
         treevew.setRoot(rootItem);
         //rootItem.setExpanded(true);
@@ -82,6 +97,7 @@ public class FileBrowserController
         {
             System.out.println(file);
             //TODO: temporary until redone functions
+            //TODO:make a seperate thread with progress
             ParseInput.parseFile(file);
         }
     }
