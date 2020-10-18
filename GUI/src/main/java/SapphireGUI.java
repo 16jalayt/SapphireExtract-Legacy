@@ -7,16 +7,14 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.sapphireforge.program.ParseInput;
 
 import java.io.IOException;
 
 public class SapphireGUI extends Application
 {
 
-    public static void launchGUI(String[] args)
-    {
-        launch(args);
-    }
+    public static void launchGUI(String[] args) { launch(args); }
 
     @Override
     public void start(Stage primaryStage)

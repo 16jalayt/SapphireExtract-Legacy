@@ -18,7 +18,7 @@ public class Helpers
 		int b = file.readByte() & 0xFF;
 		short res = (short) ((b << 8) | a);
 		
-		if (ParseInput.arg.verbose && message.compareTo("") != 0)
+		if (ParseInput.verbose && message.compareTo("") != 0)
 			System.out.println(message + res);
         return res;
     }
@@ -29,7 +29,7 @@ public class Helpers
 	public static short readShortBigEndian(String message, RandomAccessFile file) throws IOException 
 	{
 		short res = file.readShort();
-		if (ParseInput.arg.verbose && message.compareTo("") != 0)
+		if (ParseInput.verbose && message.compareTo("") != 0)
 			System.out.println(message + res);
 		return res;
 	}
@@ -46,7 +46,7 @@ public class Helpers
         int d = file.readByte() & 0xFF;
         int res = (d << 24) | (c << 16) | (b << 8) | a;
         
-        if (ParseInput.arg.verbose && message.compareTo("") != 0)
+        if (ParseInput.verbose && message.compareTo("") != 0)
 			System.out.println(message + res);
         return res;
     }
@@ -58,7 +58,7 @@ public class Helpers
 	public static int readIntBigEndian(String message, RandomAccessFile file) throws IOException 
 	{
 		int res = file.readInt();
-		if (ParseInput.arg.verbose && message.compareTo("") != 0)
+		if (ParseInput.verbose && message.compareTo("") != 0)
 			System.out.println(message + res);
 		return res;
 	}
@@ -79,7 +79,7 @@ public class Helpers
         long h = file.readByte() & 0xFF;
         long res = (h << 56) | (g << 48) | (f << 40) | (e << 32) | (d << 24) | (c << 16) | (b << 8) | a;
         
-        if (ParseInput.arg.verbose && message.compareTo("") != 0)
+        if (ParseInput.verbose && message.compareTo("") != 0)
 			System.out.println(message + res);
         return res;
     }
@@ -91,7 +91,7 @@ public class Helpers
 	public static long readLongBigEndian(String message, RandomAccessFile file) throws IOException 
 	{
 		long res = file.readLong();
-		if (ParseInput.arg.verbose && message.compareTo("") != 0)
+		if (ParseInput.verbose && message.compareTo("") != 0)
 			System.out.println(message + res);
 		return res;
 	}
@@ -105,7 +105,7 @@ public class Helpers
 		byte[] bArray = new byte[len];
 		inStream.read(bArray);
         
-        if (ParseInput.arg.verbose && message.compareTo("") != 0)
+        if (ParseInput.verbose && message.compareTo("") != 0)
 			System.out.println(message + bArray);
         return bArray;
     }
@@ -120,7 +120,7 @@ public class Helpers
 		inStream.read(bArray);
 		String bArrayString = new String(bArray).trim();
         
-        if (ParseInput.arg.verbose && message.compareTo("") != 0)
+        if (ParseInput.verbose && message.compareTo("") != 0)
 			System.out.println(message + bArrayString);
         return bArrayString;
     }

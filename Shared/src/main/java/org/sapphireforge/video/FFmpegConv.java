@@ -79,7 +79,7 @@ public class FFmpegConv
 
 		FFmpegBuilder builder = new FFmpegBuilder()
 		  .setInput(probeResult)     // Filename, or a FFmpegProbeResult
-		  .overrideOutputFiles(ParseInput.arg.overwriteAll) // Override the output if it exists
+		  .overrideOutputFiles(ParseInput.overwriteAll) // Override the output if it exists
 		  .setVerbosity(Verbosity.ERROR)
 		  .addOutput(outputName)   // Filename for the destination
 		  .setAudioCodec("aac")        // using the aac codec

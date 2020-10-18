@@ -45,7 +45,7 @@ public class CIF2_0
 				short fileHeight = -1;
 
 				//spacing for print
-				if(ParseInput.arg.verbose) System.out.println();
+				if(ParseInput.verbose) System.out.println();
 
 				byte[] currFileName = new byte[9];
 				inStream.read(currFileName);
@@ -70,7 +70,7 @@ public class CIF2_0
 
 				if(fileType==2)
 				{
-					if(ParseInput.arg.verbose) System.out.println("Plain file");
+					if(ParseInput.verbose) System.out.println("Plain file");
 
 
 					fileWidth = Helpers.readShortLittleEndian("File width: ", inStream);
@@ -97,7 +97,7 @@ public class CIF2_0
 
 				else if(fileType==3)
 				{
-					if(ParseInput.arg.verbose) System.out.println("Data file");
+					if(ParseInput.verbose) System.out.println("Data file");
 					//placeholder 0s for data file
 					inStream.skipBytes(7);
 

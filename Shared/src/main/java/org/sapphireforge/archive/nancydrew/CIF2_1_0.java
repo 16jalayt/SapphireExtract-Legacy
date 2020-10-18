@@ -46,7 +46,7 @@ public class CIF2_1_0
 				short fileHeight = -1;
 				
 				//spacing for print
-				if(ParseInput.arg.verbose) System.out.println();
+				if(ParseInput.verbose) System.out.println();
 
 				byte[] currFileName;
 				if(is2)
@@ -78,7 +78,7 @@ public class CIF2_1_0
 				
 				if(fileType==2)
 				{
-					if(ParseInput.arg.verbose) System.out.println("Plain file");
+					if(ParseInput.verbose) System.out.println("Plain file");
 					//padding? 0s
 					inStream.skipBytes(8);
 					
@@ -119,7 +119,7 @@ public class CIF2_1_0
 				
 				else if(fileType==3)
 				{
-					if(ParseInput.arg.verbose) System.out.println("Data file");
+					if(ParseInput.verbose) System.out.println("Data file");
 					//placeholder 0s for data file
 					inStream.skipBytes(39);
 					

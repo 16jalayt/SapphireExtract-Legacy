@@ -50,7 +50,7 @@ public class Output
 	    	{
 	    		OutSetup(filename + "-" + Main.fileCount, format);
 	    	}*/
-	        if (ParseInput.arg.overwriteAll)
+	        if (ParseInput.overwriteAll)
 	        {
 	        	ParseInput.outStream = new FileOutputStream(ParseInput.outfile);
 	        }	        
@@ -65,7 +65,7 @@ public class Output
 		        else if(usrIn.equals("a"))
 		        {
 		        	ParseInput.outStream = new FileOutputStream(ParseInput.outfile);
-		        	ParseInput.arg.overwriteAll = true;
+		        	ParseInput.overwriteAll = true;
 		        }
 		       /* else if(usrIn.equals("r"))
 		        {

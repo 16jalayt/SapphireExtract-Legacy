@@ -47,7 +47,7 @@ public class CIF2_1_1
 			short fileHeight = -1;
 			
 			//spacing for print
-			if(ParseInput.arg.verbose) System.out.println();
+			if(ParseInput.verbose) System.out.println();
 			
 			byte[] currFileName = new byte[33];
 			inStream.read(currFileName);
@@ -72,7 +72,7 @@ public class CIF2_1_1
 			
 			if(fileType==2)
 			{
-				if(ParseInput.arg.verbose) System.out.println("Plain file");
+				if(ParseInput.verbose) System.out.println("Plain file");
 				
 				fileOffset = Helpers.readIntLittleEndian("File offset: ", inStream);
 				//padding? 0s and unknown
@@ -119,7 +119,7 @@ public class CIF2_1_1
 			///////////////////////compression
 			else if(fileType==3)
 			{
-				if(ParseInput.arg.verbose) System.out.println("Data file");
+				if(ParseInput.verbose) System.out.println("Data file");
 				
 				fileOffset = Helpers.readIntLittleEndian("File offset: ", inStream);
 				
@@ -134,8 +134,8 @@ public class CIF2_1_1
 			}
 			else
 			{
-				if(ParseInput.arg.verbose) System.out.println("File of type "+fileType+ " detected: " +name);
-				if(ParseInput.arg.verbose) System.out.println("This type of file is either a dummy file or points to an external file.");
+				if(ParseInput.verbose) System.out.println("File of type "+fileType+ " detected: " +name);
+				if(ParseInput.verbose) System.out.println("This type of file is either a dummy file or points to an external file.");
 				inStream.skipBytes(59);
 				continue;
 			}

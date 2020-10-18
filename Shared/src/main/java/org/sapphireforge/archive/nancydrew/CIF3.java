@@ -140,7 +140,7 @@ public class CIF3
 			{
 				fileExt = ".unknown";
 				System.out.println("Unknown file type " + fileType + ". Please report game this occured in.");
-				if (ParseInput.arg.verbose) {System.out.println("This occured at addr: " + (inStream.getFilePointer() - 32));}
+				if (ParseInput.verbose) {System.out.println("This occured at addr: " + (inStream.getFilePointer() - 32));}
 			}
 			inStream.skipBytes(12);
 			
@@ -163,7 +163,7 @@ public class CIF3
 			//files are written. Below is post process for specific files
 			if(fileExt.equals(".luac"))
 			{
-				if(ParseInput.arg.raw)
+				if(ParseInput.raw)
 					return;
 				decompile(ParseInput.outfile.getPath(), ParseInput.outfile.getPath().replace("luac", "lua"));
 

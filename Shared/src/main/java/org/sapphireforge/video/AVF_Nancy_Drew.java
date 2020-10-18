@@ -56,7 +56,7 @@ public class AVF_Nancy_Drew
         for (int i = 0; i < numFrames; i++)
         {
             //spacing
-            if (ParseInput.arg.verbose) System.out.println("");
+            if (ParseInput.verbose) System.out.println("");
 
             short frameNumber = Helpers.readShortLittleEndian("Frame #: ", inStream);
             int frameOffset = Helpers.readIntLittleEndian("Frame offset: ", inStream);
@@ -150,7 +150,7 @@ public class AVF_Nancy_Drew
 
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(ParseInput.inputWithoutExtension + ParseInput.separator + "%d.png")     // Filename, or a FFmpegProbeResult
-                .overrideOutputFiles(ParseInput.arg.overwriteAll) // Override the output if it exists
+                .overrideOutputFiles(ParseInput.overwriteAll) // Override the output if it exists
                 .setVerbosity(FFmpegBuilder.Verbosity.ERROR)
                 .addOutput(outputName)   // Filename for the destination
                 .setVideoCodec(outputCodec)

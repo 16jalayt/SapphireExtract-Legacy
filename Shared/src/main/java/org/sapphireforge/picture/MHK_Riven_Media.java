@@ -22,7 +22,7 @@ public class MHK_Riven_Media
 		BufferedImage outputImage;
 		
 		
-		if (ParseInput.arg.verbose) {System.out.println();}
+		if (ParseInput.verbose) {System.out.println();}
 		byte[] bitmap = {0};
 		
 		//only supposed to use last 10 bytes

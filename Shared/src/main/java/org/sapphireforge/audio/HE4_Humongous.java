@@ -33,7 +33,7 @@ public class HE4_Humongous
 		inStream.skipBytes(4);
 		
 		int numFiles = Helpers.readIntLittleEndian(inStream);
-		if (ParseInput.arg.verbose) {System.out.println("Extracting " + numFiles + " files.");}
+		if (ParseInput.verbose) {System.out.println("Extracting " + numFiles + " files.");}
 		
 		int id = Helpers.readIntLittleEndian("song id: ",inStream);
 		inStream.seek(inStream.getFilePointer() - 4);
@@ -63,7 +63,7 @@ public class HE4_Humongous
 			int pos = Helpers.readIntLittleEndian("song pos: ", inStream);
 			int len = Helpers.readIntLittleEndian("song len: ", inStream);
 			
-			if (ParseInput.arg.verbose) {System.out.println();}
+			if (ParseInput.verbose) {System.out.println();}
 			
 			long tableOffset = inStream.getFilePointer();
 			//skip sdat header stuff

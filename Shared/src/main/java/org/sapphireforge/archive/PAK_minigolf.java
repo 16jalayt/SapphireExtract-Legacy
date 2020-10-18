@@ -54,7 +54,7 @@ public class PAK_minigolf
 			inStream.read(fileName);
 			String fileNameS = new String(fileName);
 			if (varient == 1) {fileNameS = fileNameS.substring(0, fileNameS.lastIndexOf("."));}
-			if (ParseInput.arg.verbose) {System.out.println(fileNameS);}
+			if (ParseInput.verbose) {System.out.println(fileNameS);}
 			
 			tableOffset = inStream.getFilePointer();
 			//go to start of file

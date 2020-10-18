@@ -31,7 +31,7 @@ public class CIF_Nancy_Drew
 		
 		int verMajor = Helpers.readShortLittleEndian(inStream);
 		int verMinor = Helpers.readShortLittleEndian(inStream);
-		if(ParseInput.arg.verbose )
+		if(ParseInput.verbose )
 			System.out.println("Cif version: " + verMajor + "." + verMinor);
 		
 		if(verMajor == 3 && verMinor == 0)
@@ -92,7 +92,7 @@ public class CIF_Nancy_Drew
 			CIF2_1_1.cif2_1_1(inStream,false);
 		
 		//spacing for print
-		if(ParseInput.arg.verbose) System.out.println();
+		if(ParseInput.verbose) System.out.println();
 	}
 //External cif files seem different. Garbage data
 	/////BROKEN

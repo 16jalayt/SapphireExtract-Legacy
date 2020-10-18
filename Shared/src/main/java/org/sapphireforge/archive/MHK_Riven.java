@@ -26,7 +26,7 @@ public class MHK_Riven
 		int typeTableOffset = Helpers.readIntBigEndian("Type table ofset:", inStream);
 		short tableOffset = Helpers.readShortBigEndian("Table offset:", inStream);
 		short tableSize = Helpers.readShortBigEndian("Table size:", inStream);
-		if (ParseInput.arg.verbose) {System.out.println();}
+		if (ParseInput.verbose) {System.out.println();}
 		
 		inStream.seek(typeTableOffset);
 		
@@ -39,12 +39,12 @@ public class MHK_Riven
 		
 		for (int i = 0; i < resType; i++)
 		{///////////////multiple resorce types will overwrite
-			if (ParseInput.arg.verbose) {System.out.println("\n");}
+			if (ParseInput.verbose) {System.out.println("\n");}
 			//type of chunk
 			byte[] fileType = new byte[4];
 			inStream.read(fileType);
 			fileTypeS = new String(fileType);
-			if (ParseInput.arg.verbose) {System.out.println(fileTypeS);}
+			if (ParseInput.verbose) {System.out.println(fileTypeS);}
 			
 			short resTableOff = Helpers.readShortBigEndian("Resource table offset:", inStream);
 			short nameTableOff = Helpers.readShortBigEndian("Name table offset:", inStream);
@@ -66,8 +66,8 @@ public class MHK_Riven
 				indexArray[j] = Helpers.readShortBigEndian(inStream);
 				indexMap.put(indexArray[j], idArray[j]);
 			}
-			if (ParseInput.arg.verbose) {System.out.println(Arrays.toString(idArray));}
-			if (ParseInput.arg.verbose) {System.out.println(Arrays.toString(indexArray));}
+			if (ParseInput.verbose) {System.out.println(Arrays.toString(idArray));}
+			if (ParseInput.verbose) {System.out.println(Arrays.toString(indexArray));}
 			
 			inStream.seek(nameTableOff + typeTableOffset);
 			short nameCount = Helpers.readShortBigEndian("Name count:", inStream);
@@ -104,7 +104,7 @@ public class MHK_Riven
 			
 			for (int j = 0; j < fileTableCount; j++)
 			{
-				if (ParseInput.arg.verbose) {System.out.println();}
+				if (ParseInput.verbose) {System.out.println();}
 				fileOff[j] = Helpers.readIntBigEndian("File offset:", inStream);
 				int fileLen = Short.toUnsignedInt(Helpers.readShortBigEndian(inStream));
 				
@@ -113,7 +113,7 @@ public class MHK_Riven
 				//byte fileLen2 = inStream.readByte();
 				//fileLength[j] = fileLen | (fileLen2 << 16);
 				fileLength[j] = fileLen;
-				if (ParseInput.arg.verbose) {System.out.println("File length: " + fileLength[j]);}
+				if (ParseInput.verbose) {System.out.println("File length: " + fileLength[j]);}
 				
 				//fileLen2, byte flag, short unk?
 				inStream.skipBytes(4);

@@ -14,7 +14,7 @@ public class FAT_Windows
         System.out.println("FAT not finished! Will likely not work.");
         
         inStream.seek(0);
-        if(ParseInput.arg.verbose) System.out.println("Searching for start of partition...");
+        if(ParseInput.verbose) System.out.println("Searching for start of partition...");
 
         //loop to find start of fat block
         while(true)
@@ -25,12 +25,12 @@ public class FAT_Windows
                 //System.out.println(Integer.toHexString(testByte));
                 if(testByte==(byte)0xEB)
                 {
-                    if(ParseInput.arg.verbose) System.out.println("Found 0xEB (first marker)");
+                    if(ParseInput.verbose) System.out.println("Found 0xEB (first marker)");
                     inStream.skipBytes(1);
                     byte testByte2 = inStream.readByte();
                     if(testByte2==(byte)0x90)
                     {
-                        if(ParseInput.arg.verbose) System.out.println("Found 0x90 (second marker). Partition start found.");
+                        if(ParseInput.verbose) System.out.println("Found 0x90 (second marker). Partition start found.");
                         break;
                     }
                 }
@@ -51,14 +51,14 @@ public class FAT_Windows
 
         byte[] BS_OEMName = new byte[8];
         inStream.read(BS_OEMName);
-        if(ParseInput.arg.verbose) System.out.println("Fat image formatted by: " + new String(BS_OEMName));
+        if(ParseInput.verbose) System.out.println("Fat image formatted by: " + new String(BS_OEMName));
 
         //# of bytes per sector. Only valid: 512, 1024, 2048 or 4096
         int BPB_BytsPerSec = Helpers.readIntLittleEndian("Bytes per sector: ", inStream);
 
         //Number of sectors per allocation unit. Must be a power of 2
         byte BPB_SecPerClus = inStream.readByte();
-        if(ParseInput.arg.verbose) System.out.println("Sectors per unit: " +  BPB_SecPerClus);
+        if(ParseInput.verbose) System.out.println("Sectors per unit: " +  BPB_SecPerClus);
 
         
     }
