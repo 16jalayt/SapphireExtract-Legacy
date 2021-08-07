@@ -67,6 +67,7 @@ public class Output
 		        	ParseInput.outStream = new FileOutputStream(ParseInput.outfile);
 		        	ParseInput.overwriteAll = true;
 		        }
+		        //TODO: reimplement rename
 		       /* else if(usrIn.equals("r"))
 		        {
 		        	Main.outStream = new FileOutputStream(Main.outfile);

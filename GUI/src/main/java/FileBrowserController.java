@@ -95,7 +95,7 @@ public class FileBrowserController
 
         for (File file : retList)
         {
-            System.out.println(file);
+            //System.out.println(file);
             //TODO: temporary until redone functions
             //TODO:make a seperate thread with progress
             ParseInput.parseFile(file);

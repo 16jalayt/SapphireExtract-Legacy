@@ -39,7 +39,7 @@ import java.util.Arrays;
  * word = short
  * dword = int
  */
-
+//TODO:use hash for no magic
 
 public class DetectExtension 
 {
@@ -51,7 +51,7 @@ public class DetectExtension
 			return;
 		}
 		//tgq sort of works, but too slow
-		else if (Arrays.asList(".mpg", ".mp2", ".mp4",".tgq", ".flv", ".ogv", ".bik").contains(ParseInput.inputExtension.toLowerCase()))
+		else if (Arrays.asList(".mpg", ".mp2", ".mp4",".tgq", ".flv", ".ogv", ".bik", ".avi", ".wmv", ".mkv").contains(ParseInput.inputExtension.toLowerCase()))
 		{
 			FFmpegConv.convert();
 		}

@@ -216,7 +216,7 @@ public class CIF2_1_0
 							Output.OutSetup(ParseInput.inputWithoutExtension + ParseInput.separator + name,".xs1");
 						//dat script file
 						else if(fileraw[0]==68)
-							Output.OutSetup(ParseInput.inputWithoutExtension + ParseInput.separator + name,".iff");
+							Output.OutSetup(ParseInput.inputWithoutExtension + ParseInput.separator + name,".hiff");
 						else
 						{
 							Output.OutSetup(ParseInput.inputWithoutExtension + ParseInput.separator + name,".unk");
